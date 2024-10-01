@@ -7,7 +7,8 @@ Intel Engine & Graphics Firmware Analysis Tool
 Copyright (C) 2014-2024 Plato Mavropoulos
 """
 
-title = 'ME Analyzer v1.307.0'
+ModifiedTag =  ' - Modified for IRST'
+title = 'ME Analyzer'
 
 import sys
 
@@ -9812,14 +9813,14 @@ def pt_json(pt_obj) :
 # Detect DB Revision
 def mea_hdr_init() :
     mea_db_rev = 'Unknown'
-    mea_db_rev_p = col_r + mea_db_rev + col_e
+    mea_db_rev_p = col_r + mea_db_rev + ModifiedTag + col_e
     
     for line in mea_db_lines :
         if 'Revision' in line :
             mea_db_list = line.split()
             if len(mea_db_list) >= 3 :
                 mea_db_rev = mea_db_list[2]
-                mea_db_rev_p = col_y + mea_db_rev + col_e
+                mea_db_rev_p = col_y + mea_db_rev + ModifiedTag + col_e
             
             break # Revision line found, skip rest of DB
     
@@ -10448,10 +10449,10 @@ def mea_upd_check(db_path) :
         db_print = '(r%s --> r%s)' % (cur_db_ver, git_db_ver)
         db_is_upd = cur_db_ver >= git_db_ver
         
-        git_link = '\n         Download the latest from https://github.com/platomav/MEAnalyzer/'
-        if not py_is_upd and not db_is_upd : result = col_m + '\nWarning: Outdated ME Analyzer %s & Database %s!' % (py_print,db_print) + git_link + col_e
-        elif not py_is_upd : result = col_m + '\nWarning: Outdated ME Analyzer %s!' % py_print + git_link + col_e
-        elif not db_is_upd : result = col_m + '\nWarning: Outdated Database %s!' % db_print + git_link + col_e
+        #git_link = '\n         Download the latest from https://github.com/platomav/MEAnalyzer/'
+        #if not py_is_upd and not db_is_upd : result = col_m + '\nWarning: Outdated ME Analyzer %s & Database %s!' % (py_print,db_print) + git_link + col_e
+        #elif not py_is_upd : result = col_m + '\nWarning: Outdated ME Analyzer %s!' % py_print + git_link + col_e
+        #elif not db_is_upd : result = col_m + '\nWarning: Outdated Database %s!' % db_print + git_link + col_e
     except :
         result = None
     
@@ -10930,7 +10931,7 @@ mea_db_rev, mea_db_rev_p = mea_hdr_init()
 sys.excepthook = show_exception_and_exit
 
 # Set console/shell window title
-mea_title = '%s %s' % (title, mea_db_rev)
+mea_title = '%s %s %s' % (title, mea_db_rev, ModifiedTag)
 if sys_os == 'win32' : ctypes.windll.kernel32.SetConsoleTitleW(mea_title)
 elif sys_os.startswith('linux') or sys_os == 'darwin' : sys.stdout.write('\x1b]2;' + mea_title + '\x07')
 
@@ -13870,7 +13871,7 @@ for file_in in source :
             mea_json[file_in][msg_phy_pt.title].extend(list(pt_json(msg_phy_pt).values())[0])
     
     # Print Messages which must be at the end of analysis
-    if is_unsupported : err_stor.append([col_r + 'Error: Unsupported Intel Engine, Graphics and/or Independent firmware!' + col_e, True])
+    #if is_unsupported : err_stor.append([col_r + 'Error: Unsupported Intel Engine, Graphics and/or Independent firmware!' + col_e, True])
     
     if eng_size_text != ['', False] : warn_stor.append(['%s' % eng_size_text[0], eng_size_text[1]])
     
